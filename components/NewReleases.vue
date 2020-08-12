@@ -2,7 +2,7 @@
   <div class="newreleases">
     <div class="newreleases__top">
       <div class="newreleases__headers">
-        <h2 class="newreleases__headers--h2">New Releases</h2>
+        <h2 class="newreleases__headers--h2">Favourite Releases</h2>
         <span class="newreleases__headers--sub">{{artists.length}} Songs</span>
       </div>
 
@@ -24,10 +24,17 @@
         <div
           @click="pick_song(artist, index)"
           class="newreleases__card"
+          v-bind:class="{ 
+            playing: artist.artist_songlink === currentItem.artist_songlink && song_playing, 
+            newconstraints: artist.artist_songlink === currentItem.artist_songlink && song_playing 
+          }"
           v-for="(artist, index) in organise_slides(slide)"
           :key="index"
         >
-          <figure class="newreleases__card--figure">
+          <figure
+            class="newreleases__card--figure"
+            v-bind:class="{ spinning: artist.artist_songlink === currentItem.artist_songlink && song_playing }"
+          >
             <img :src="artist.artist_albumart_link" :alt="artist.artist_songname" />
           </figure>
         </div>
@@ -65,11 +72,6 @@ export default {
     };
   },
   computed: {
-    currentItem() {
-      const item = this.$store.getters.current_item;
-
-      return item;
-    },
     songSlides() {
       const numOfSlides = this.artistsLength / this.limitCardSlide;
       const songsSlidesArr = Array.from(Array(numOfSlides).keys());
@@ -151,14 +153,14 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 3rem;
-    overflow: hidden;
+    //overflow: hidden;
     width: 82vw;
   }
 
   &__slide {
     width: 85vw;
     flex-shrink: 0;
-    overflow: hidden;
+    //overflow: hidden;
     display: flex;
     height: 27rem;
   }
@@ -171,6 +173,10 @@ export default {
     border-radius: 2rem;
     overflow: hidden;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
 
     &:not(:last-child) {
       -webkit-box-shadow: 1px 50px 50px -16px rgba(0, 0, 0, 0.43);
@@ -194,6 +200,7 @@ export default {
       height: 100%;
       width: 100%;
       overflow: hidden;
+      transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
 
       & img {
         height: 100%;

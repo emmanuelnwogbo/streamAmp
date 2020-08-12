@@ -1,5 +1,10 @@
 export default {
   computed: {
+    currentItem() {
+      const item = this.$store.getters.current_item;
+
+      return item;
+    },
     playList() {
       const playlist = [
         ...this.$store.getters.db_artists,
@@ -18,6 +23,9 @@ export default {
     },
     current_time() {
       return this.$store.getters.duration_current_time;
+    },
+    song_playing() {
+      return this.$store.getters.playing;
     }
   },
   methods: {
@@ -56,7 +64,11 @@ export default {
     update_time(e) {
       const { audioInDOM, convertSeconds } = this;
 
-      if (audioInDOM != null) {
+      if (
+        audioInDOM != null &&
+        !isNaN(audioInDOM.currentTime) &&
+        !isNaN(audioInDOM.duration)
+      ) {
         const time_object = {
           current_time: isNaN(audioInDOM.currentTime)
             ? "0:01"
@@ -66,6 +78,8 @@ export default {
             : `${convertSeconds(Math.floor(audioInDOM.duration))}`
         };
         this.$store.dispatch("update_time", time_object);
+        this.$store.dispatch("set_min_range", `${audioInDOM.currentTime}`);
+        this.$store.dispatch("set_max_range", `${audioInDOM.duration}`);
       }
     }
   }

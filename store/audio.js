@@ -84,6 +84,9 @@ const audioStore = {
         currentTime,
         duration
       };
+    },
+    playing(state) {
+      return state.playing
     }
   }
 };

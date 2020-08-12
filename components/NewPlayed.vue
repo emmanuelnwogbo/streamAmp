@@ -1,7 +1,7 @@
 <template>
   <div class="newplayed">
     <div class="newplayed__header">
-      <h2 class="newplayed__header--h2">New Played</h2>
+      <h2 class="newplayed__header--h2">Searched Tracks</h2>
       <span class="newplayed__header--times" v-for="(time, index) in times" :key="index">{{ time }}</span>
     </div>
     <div class="newplayed__header--lengthofSongs">
@@ -20,11 +20,28 @@
       >
         <div class="newplayed__tile--section newplayed__tile--left">
           <span class="newplayed__tile--playpause">
-            <svg>
+            <svg
+              :class="{
+            invisible: track.preview_url !== currentItem.preview_url || !song_playing
+          }"
+            >
               <use xlink:href="~assets/sprite.svg#icon-pause" />
             </svg>
+            <svg
+              :class="{
+            invisible: track.preview_url === currentItem.preview_url && song_playing
+          }"
+            >
+              <use xlink:href="~assets/sprite.svg#icon-play_arrow" />
+            </svg>
           </span>
-          <figure class="newplayed__tile--figure">
+          <figure
+            class="newplayed__tile--figure"
+            v-bind:class="{ 
+              playing: track.preview_url === currentItem.preview_url && song_playing, 
+              spinning: track.preview_url === currentItem.preview_url && song_playing 
+              }"
+          >
             <img :src="track.album.images[2].url" alt class="newplayed__tile--img" />
           </figure>
           <div class="newplayed__tile--names">
@@ -91,7 +108,7 @@ export default {
 
 <style lang="scss" scoped>
 .newplayed {
-  flex-basis: 60%;
+  flex-basis: 100%;
 
   &__header {
     position: relative;
@@ -100,7 +117,7 @@ export default {
     margin-bottom: 0.5rem;
 
     &--h2 {
-      font-size: 2rem;
+      font-size: 2.4rem;
       color: rgba(45, 52, 54, 1);
       margin-right: 3rem;
     }
@@ -123,7 +140,7 @@ export default {
     &--lengthofSongs {
       color: rgba(45, 52, 54, 0.5);
       font-weight: 700;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
 
       & span span {
         color: #2d3436;
@@ -153,9 +170,6 @@ export default {
       align-items: center;
     }
 
-    &--left {
-    }
-
     &--playpause {
       display: inline-block;
       margin-right: 1.5rem;
@@ -173,6 +187,7 @@ export default {
       overflow: hidden;
       border-radius: 1rem;
       margin-right: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
 
       & img {
         height: 100%;

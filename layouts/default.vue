@@ -33,6 +33,26 @@ $breakpoint arguement choices:
 ORDER: Base + typography > general layout + grid > page layout > components
 1em = 16px
 */
+@keyframes moveInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @mixin respond($breakpoint) {
   @if $breakpoint == phone {
     @media only screen and (max-width: 37.5em) {
@@ -87,8 +107,6 @@ html {
 }
 
 body {
-  box-sizing: border-box;
-  //background: rgba(30, 39, 46, 0.1);
   word-spacing: 0.1rem;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -108,9 +126,6 @@ body {
   background: #fff;
 }
 
-::selection {
-}
-
 audio {
   position: fixed;
   top: 0;
@@ -119,5 +134,44 @@ audio {
   transform: translateX(-400vw);
   opacity: 0;
   display: none;
+}
+
+.playing {
+  transform: scale(0.9) translateY(-10px);
+  border: none;
+  border-radius: 50% !important;
+  backface-visibility: hidden;
+  box-shadow: 1px 50px 50px -16px rgba(#4b7bec, 0.6) !important;
+
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+.spinning {
+  animation: 3s linear 0s infinite normal none running spin;
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+.newconstraints {
+  height: 8vw !important;
+  width: 8vw !important;
+
+  & figure {
+    position: relative !important;
+    height: 7.6vw !important;
+    width: 7.6vw !important;
+    border-radius: 50%;
+  }
+}
+
+.invisible {
+  display: none !important;
 }
 </style>

@@ -108,11 +108,13 @@ export default {
 
     & h2 {
       color: rgba(45, 52, 54, 1);
+      font-size: 1.7rem;
     }
 
     & span {
       color: rgba(30, 39, 46, 0.8);
       font-weight: 500;
+      font-size: 1.3rem;
     }
   }
 

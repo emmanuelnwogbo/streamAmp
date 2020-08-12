@@ -1,18 +1,15 @@
 <template>
   <div class="sections">
-    <Videos />
     <NewPlayed />
   </div>
 </template>
 
 <script>
 import HomeSideBar from "@/components/NewPlayed";
-import Videos from "@/components/Videos";
 export default {
   name: "Sections",
   components: {
     HomeSideBar,
-    Videos,
   },
   data() {
     return {};

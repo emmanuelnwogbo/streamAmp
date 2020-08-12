@@ -2,6 +2,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 import audioStore from "./audio";
+import rangeStore from "./range";
 
 const createStore = () => {
   return new Vuex.Store({
@@ -10,7 +11,8 @@ const createStore = () => {
       id_from_spotify: null,
       tracks_from_spotify: [],
       search_term: "bruno",
-      ...audioStore.state
+      ...audioStore.state,
+      ...rangeStore.state
     },
     mutations: {
       setSpotData(state, data) {
@@ -22,10 +24,12 @@ const createStore = () => {
       setSpotTracks(state, data) {
         state.tracks_from_spotify = data;
       },
-      ...audioStore.mutations
+      ...audioStore.mutations,
+      ...rangeStore.mutations,
     },
     actions: {
       ...audioStore.actions,
+      ...rangeStore.actions,
       nuxtServerInit(vuexContext, context) {
         return axios
           .get("https://spotify-api-wrapper.appspot.com/artist/bruno")
@@ -81,7 +85,8 @@ const createStore = () => {
       spotify_tracks(state) {
         return state.tracks_from_spotify;
       },
-      ...audioStore.getters
+      ...audioStore.getters,
+      ...rangeStore.getters
     }
   });
 };
